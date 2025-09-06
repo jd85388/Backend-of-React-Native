@@ -4,7 +4,7 @@ dotenv.config();
 export const conectarBD = async () => {
     try {
         await mongoose.connect(process.env.MONGO);
-        console.log("Conexion exitosa con la base de datos...");
+        console.log("Base de datos Disponible para peticiones");
     }
     catch (error) {
         console.log("Error de conexion con la base de datos: ", error);

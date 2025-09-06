@@ -1,12 +1,13 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import Paciente from '../models/paciente';
-import { enviarCorreo } from '../utils/enviarCorreo';
+import Paciente from '../models/paciente.js';
+import { enviarCorreo } from '../utils/enviarCorreo.js';
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
+import { enviarCorreoRegistro } from '../utils/CorreoRegistro.js';
 dotenv.config();
 
-export const resgistrarPaciente = async (req: Request, res: Response) => {
+export const registrarPaciente = async (req: Request, res: Response) => {
     try {
         const { nombre, apellido, email, password, fechaNacimiento } = req.body;
 
@@ -31,10 +32,8 @@ export const resgistrarPaciente = async (req: Request, res: Response) => {
     await nuevoPaciente.save();
 
     const token = jwt.sign({ id: nuevoPaciente._id}, process.env.JWT_TOKEN as string);
-    const link = `${process.env.FRONTEND_URL}/confirmar/${token}`;
 
-    await enviarCorreo(email, 
-        'Activar Cuenta', `<p>solo confirma we</p>`);
+    await enviarCorreoRegistro(email, nombre, token);
 
         res.status(201).json({ 
             id: nuevoPaciente._id,
