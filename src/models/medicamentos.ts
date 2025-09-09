@@ -1,7 +1,7 @@
 import { Model, Schema, model, Document } from "mongoose";
 
 export interface IMedicamentos extends Document {
-    id_paciente: string;
+    id_Paciente: Schema.Types.ObjectId;
     nombre: string;
     dosis: number;
     unidad: string;
@@ -16,6 +16,7 @@ export interface IMedicamentos extends Document {
 }
 
 const MedicamentosSchema: Schema = new Schema({
+    id_Paciente: { type: Schema.Types.ObjectId, ref: 'paciente', require: true},
     nombre: { type: String, 
         required: [true, 'El campo es obligatorio'], 
         trim: true},

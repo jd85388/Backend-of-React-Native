@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 const MedicamentosSchema = new Schema({
+    id_Paciente: { type: Schema.Types.ObjectId, ref: 'paciente', require: true },
     nombre: { type: String,
         required: [true, 'El campo es obligatorio'],
         trim: true },
