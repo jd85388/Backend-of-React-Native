@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { crearPaciente } from '../services/paciente.services.js';
+import { crearPaciente } from '../services/paciente.service.js';
 
 export const registrarPaciente = async (req: Request, res: Response) => {
   try {
