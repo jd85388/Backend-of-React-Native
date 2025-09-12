@@ -33,4 +33,4 @@ const PacienteShema = new Schema({
 }, { timestamps: true});
 
 const Paciente: Model<IPaciente> = model<IPaciente>('Paciente', PacienteShema);
-export default Paciente;
+export default Paciente

@@ -1,4 +1,4 @@
-import { crearPaciente } from '../services/paciente.services';
+import { crearPaciente } from '../services/paciente.service';
 import Paciente from '../models/paciente';
 import { enviarCorreoRegistro } from '../utils/CorreoRegistro';
 import jwt from 'jsonwebtoken';

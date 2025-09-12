@@ -1,4 +1,4 @@
-import { crearPaciente } from '../services/paciente.services.js';
+import { crearPaciente } from '../services/paciente.service.js';
 export const registrarPaciente = async (req, res) => {
     try {
         const paciente = await crearPaciente(req.body);
