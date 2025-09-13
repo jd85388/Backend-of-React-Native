@@ -1,3 +1,4 @@
+process.env.JWT_TOKEN = 'Life_Reminder_03';
 import { crearPaciente } from '../services/paciente.service';
 import Paciente from '../models/paciente';
 import { enviarCorreoRegistro } from '../utils/CorreoRegistro';
@@ -63,7 +64,7 @@ describe('service: crearPaciente', () => {
     // Verifica que jwt.sign fue llamado correctamente
     expect(jwt.sign).toHaveBeenCalledWith(
       expect.objectContaining({ id: expect.any(String) }),
-      'Life_Reminder_03',
+      'Life_Reminder_03'
     );
 
     // Verifica que enviarCorreoRegistro fue llamado correctamente

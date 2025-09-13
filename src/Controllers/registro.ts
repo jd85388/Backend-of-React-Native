@@ -9,4 +9,4 @@ export const registrarPaciente = async (req: Request, res: Response) => {
     console.error(error);
     res.status(400).json({ message: error.message || 'Error al registrar paciente.' });
   }
-};
+}; 
