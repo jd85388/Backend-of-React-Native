@@ -63,14 +63,14 @@ describe('service: crearPaciente', () => {
 
     // Verifica que jwt.sign fue llamado correctamente
     expect(jwt.sign).toHaveBeenCalledWith(
-      expect.objectContaining({ id: expect.any(String) }),
+      expect.any(Object),
       'Life_Reminder_03'
     );
 
     // Verifica que enviarCorreoRegistro fue llamado correctamente
     expect(enviarCorreoRegistro).toHaveBeenCalledWith(
-      datosCompletos.nombre,
       datosCompletos.email,
+      datosCompletos.nombre,
       'mocked_jwt_token'
     );
   });

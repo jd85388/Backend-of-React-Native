@@ -1,119 +1,108 @@
 import { enviarCorreo } from "./enviarCorreo.js";
 
 export const enviarCorreoRegistro = async (
-    email: string,
-    nombre:string,
-    token: string
+  email: string,
+  nombre: string,
+  token: string
 ): Promise<void> => {
-    const link = `${process.env.FROTEND}/confirmar/${token}`;
-    const html = `
-    <div style="
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    border-radius: 20px;
-    border: 3px solid rgb(0, 0, 0);
-    padding: 2px;
-">
+  // Corrige el nombre de la variable de entorno
+  const link = `${process.env.FRONTEND}/confirmar/${token}`;
 
-    <div style="
-        border-radius: 10px;
-        border: 3px solid rgb(2, 0, 128);
-        padding: 20px;
-        text-align: center;
-    ">
-        <h1>¡BIENVENIDO A LIFE REMINDER,</h1>
-        <h1>${nombre}☻</h1>
-    </div>
+  // Cambia estas rutas por URLs públicas reales
+  const logoUrl = "https://tudominio.com/assets/logo.png";
+  const whatsappIcon = "https://img.icons8.com/ios-filled/50/000000/whatsapp.png";
+  const emailIcon = "https://img.icons8.com/ios-filled/50/000000/email.png";
+  const infoIcon = "https://img.icons8.com/ios-glyphs/30/000000/info--v1.png";
 
-    <div style="
-        border: 3px solid rgb(2, 0, 128);
-        border-radius: 10px;
-        padding: 20px;
-    ">
-        <p>Nos alegra mucho que hayas decidido unirte a <strong>Life Reminder</strong>, tu nueva aplicación móvil diseñada para mejorar tu bienestar 
-        y facilitar tu día a día. Queremos darte una cálida bienvenida y agradecerte por confiar en nosotros.</p>
+  const html = `
+  <div style="font-family: 'Segoe UI', Arial, sans-serif; line-height:1.6;
+              background:#f4f4f4; padding:0; margin:0;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center">
+      <tr>
+        <td align="center">
+          <table width="600" cellpadding="0" cellspacing="0" border="0"
+                 style="background:#ffffff;border-radius:24px;overflow:hidden;">
+            
+            <!-- CABECERA -->
+            <tr>
+              <td align="center" style="background:linear-gradient(90deg,#12c3f0,#0e7fc0);padding:30px;">
+                <img src="${logoUrl}" alt="Life Reminder" width="120" style="display:block;margin-bottom:20px;">
+                <h1 style="color:#fff;margin:0;font-size:26px;font-weight:bold;">
+                  ¡BIENVENIDO A LIFE REMINDER,
+                </h1>
+                <h2 style="color:#fff;margin:0;font-size:22px;font-weight:400;">${nombre} ☻</h2>
+              </td>
+            </tr>
 
-        <p>Life Reminder ha sido creada pensando en ti. Nuestro objetivo es brindarte una experiencia segura, práctica y agradable. Sabemos lo importante 
-        que es cuidar de tu salud, por eso hemos desarrollado esta herramienta que te permite:</p>
+            <!-- CUERPO -->
+            <tr>
+              <td style="padding:30px;color:#333;">
+                <p>Nos alegra mucho que hayas decidido unirte a <strong>Life Reminder</strong>, 
+                tu nueva aplicación móvil diseñada para mejorar tu bienestar y facilitar tu día a día.</p>
 
-        <ul style="list-style: none; padding-left: 0;">
-            <li>✔️ Programar y recibir recordatorios para la toma de tus medicamentos.</li>
-            <li>✔️ Agendar y gestionar tus citas médicas fácilmente.</li>
-            <li>✔️ Consultar tu información personal y médica en todo momento.</li>
-            <li>✔️ Fácil uso de la aplicación.</li>
-            <li>✔️ Consultar tus exámenes.</li>
-        </ul>
+                <p>Life Reminder ha sido creada pensando en ti. Nuestro objetivo es brindarte una experiencia segura, 
+                práctica y agradable. Sabemos lo importante que es cuidar de tu salud, por eso hemos desarrollado 
+                esta herramienta que te permite:</p>
 
-        <p>Queremos acompañarte en cada paso, ayudarte a organizar tu salud y asegurarnos de que nunca olvides lo importante.</p>
-
-        <p><strong>${nombre}</strong>, estás a un solo paso de comenzar. Activa tu cuenta haciendo clic en el botón a continuación para disfrutar de todas 
-        las funciones que tenemos para ti:</p>
-
-        <a href="${link}" 
-            style="
-                display: inline-block;
-                padding: 10px 20px;
-                margin: 20px 0px;
-                background-color: #12c3f0ff;
-                color: black;
-                text-decoration: none;
-                border-radius: 5px;
-            ">
-            Activar Cuenta
-        </a>
-    </div>
-
-    <div style="
-        border-radius: 10px;
-        border: 3px solid rgb(2, 0, 128);
-        padding: 20px;
-    ">
-        <h3>CONTÁCTANOS POR NUESTROS CANALES:</h3>
-
-        <div style="
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 30px;
-            text-align: center;
-            font-family: Arial, sans-serif;
-        ">
-
-            <!-- WhatsApp -->
-            <div style="padding: 20px; border: 1px solid #ccc; border-radius: 10px;">
-                <img src="https://img.icons8.com/ios-filled/50/000000/whatsapp.png" alt="WhatsApp" width="40" />
-                <p style="margin-top: 10px;"><strong>WhatsApp</strong></p>
-                <ul style="list-style: none; padding: 2;">
-                    <li>📱 +57 322 9228590</li>
-                    <li>📱 +57 312 7564367</li>
-                    <li>📱 +57 324 4574375</li>
+                <ul style="padding-left:20px;margin-top:10px;">
+                  <li>✔️ Programar y recibir recordatorios para la toma de tus medicamentos.</li>
+                  <li>✔️ Agendar y gestionar tus citas médicas fácilmente.</li>
+                  <li>✔️ Consultar tu información personal y médica en todo momento.</li>
+                  <li>✔️ Fácil uso de la aplicación.</li>
+                  <li>✔️ Consultar tus exámenes.</li>
                 </ul>
-            </div>
 
-            <!-- Email -->
-            <div style="padding: 20px; border: 1px solid #ccc; border-radius: 10px;">
-                <img src="https://img.icons8.com/ios-filled/50/000000/email.png" alt="Email" width="40" />
-                <p style="margin-top: 10px;"><strong>Email:</strong></p>
-                <ul style="list-style: none; padding-left: 2;">
-                    <li>✉️ jd8538879@gmail.com</li>
-                    <li>✉️ sakura123@gmail.com</li>
-                    <li>✉️ danielkike18@gmail.com</li>
-                </ul>
-            </div>
+                <p><strong>${nombre}</strong>, estás a un solo paso de comenzar. 
+                Activa tu cuenta haciendo clic en el botón a continuación:</p>
 
-            <!-- Espacio para 3ra columna (puedes poner otro canal aquí si deseas) -->
-            <div style="padding: 20px; border: 1px solid #ccc; border-radius: 10px;">
-                <img src="https://img.icons8.com/ios-glyphs/30/000000/info--v1.png" alt="Info" width="40" />
-                <p style="margin-top: 10px;"><strong>Soporte</strong></p>
-                <p>Estamos aquí para ayudarte. Escríbenos si tienes preguntas o necesitas ayuda.</p>
-            </div>
+                <table align="center" cellpadding="0" cellspacing="0" style="margin:25px auto;">
+                  <tr>
+                    <td align="center" bgcolor="#12c3f0" style="border-radius:6px;">
+                      <a href="${link}" target="_blank"
+                         style="display:inline-block;padding:14px 30px;color:#fff;
+                                font-size:16px;font-weight:bold;text-decoration:none;">
+                        Activar Cuenta
+                      </a>
+                    </td>
+                  </tr>
+                </table>
 
-        </div>
-    </div>
-</div>
+                <p style="font-size:12px;color:#777;text-align:center;">
+                  Si el botón no funciona, copia y pega este enlace en tu navegador:<br/>
+                  <a href="${link}" style="color:#12c3f0;">${link}</a>
+                </p>
+              </td>
+            </tr>
 
-        `;
-        console.log(html);
-        await enviarCorreo(email, 'Activa tu cuenta en Life Reminder', html);     
+            <!-- CONTACTO -->
+            <tr>
+              <td style="background:#f0f9fc;padding:25px;">
+                <h3 style="color:#0e7fc0;text-align:center;margin-top:0;">CONTÁCTANOS:</h3>
+                <table width="100%" cellpadding="10" cellspacing="0">
+                  <tr>
+                    <td align="center">
+                      <img src="${whatsappIcon}" width="30" alt="WhatsApp"><br/>
+                      +57 322 9228590<br/>+57 312 7564367<br/>+57 324 4574375
+                    </td>
+                    <td align="center">
+                      <img src="${emailIcon}" width="30" alt="Email"><br/>
+                      jd8538879@gmail.com<br/>sakura123@gmail.com<br/>danielkike18@gmail.com
+                    </td>
+                    <td align="center">
+                      <img src="${infoIcon}" width="30" alt="Soporte"><br/>
+                      Soporte<br/>Estamos aquí para ayudarte
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
+  `;
+
+  await enviarCorreo(email, "Activa tu cuenta en Life Reminder", html);
 };
-    
