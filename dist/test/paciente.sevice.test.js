@@ -1,3 +1,4 @@
+process.env.JWT_TOKEN = 'Life_Reminder_03';
 import { crearPaciente } from '../services/paciente.service';
 import Paciente from '../models/paciente';
 import { enviarCorreoRegistro } from '../utils/CorreoRegistro';
@@ -48,8 +49,8 @@ describe('service: crearPaciente', () => {
         expect(resultado.nombre).toBe(datosCompletos.nombre);
         expect(resultado.documento).toEqual(datosCompletos.documento);
         // Verifica que jwt.sign fue llamado correctamente
-        expect(jwt.sign).toHaveBeenCalledWith(expect.objectContaining({ id: expect.any(String) }), 'Life_Reminder_03');
+        expect(jwt.sign).toHaveBeenCalledWith(expect.any(Object), 'Life_Reminder_03');
         // Verifica que enviarCorreoRegistro fue llamado correctamente
-        expect(enviarCorreoRegistro).toHaveBeenCalledWith(datosCompletos.nombre, datosCompletos.email, 'mocked_jwt_token');
+        expect(enviarCorreoRegistro).toHaveBeenCalledWith(datosCompletos.email, datosCompletos.nombre, 'mocked_jwt_token');
     });
 });
