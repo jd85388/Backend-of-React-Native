@@ -1,31 +1,90 @@
-import Medicamento from '../models/medicamentos.js';
-export const crearMedicamento = async (datos) => {
-    const { nombre, dosis, unidad, frecuencia, viaAdministracion, duracion, recetadoPor, descripcion, notas, causaUso, id_paciente } = datos;
-    if (!nombre?.trim() || !dosis || !unidad?.trim() || !frecuencia?.trim() || !viaAdministracion?.trim() || !recetadoPor?.trim() || !descripcion?.trim() || !causaUso?.trim() || !id_paciente?.trim() || !duracion?.inicio || !duracion?.fin || typeof dosis !== 'number') {
-        throw new Error('Tienes campos faltantes, porfavor completa todos los campos, son requeridos');
-    }
-    try {
-        const nuevoMedicamento = new Medicamento({
-            nombre,
-            dosis,
-            unidad,
-            frecuencia,
-            viaAdministracion,
-            duracion,
-            recetadoPor,
-            descripcion,
-            notas,
-            causaUso,
-            id_paciente
-        });
-        const guardar = await nuevoMedicamento.save();
-        return guardar;
-    }
-    catch (error) {
-        if (error.name === 'validationError') {
-            const mensajes = Object.values(error.errors).map((e) => e.message);
-            throw new Error(mensajes.join(','));
+import Medicamento from '../models/medicamentos';
+export class MedicamentoService {
+    static async crearMedicamento(medicamentoData) {
+        // Validación de campos requeridos
+        const { nombre, dosis, unidad, frecuencia, viaAdministracion, duracion, recetadoPor, descripcion, causaUso, id_Paciente } = medicamentoData;
+        if (!nombre?.trim() || !dosis || !unidad?.trim() || !frecuencia?.trim() || !viaAdministracion?.trim() || !recetadoPor?.trim() || !descripcion?.trim() || !causaUso?.trim() || !id_Paciente?.trim() || !duracion?.inicio || !duracion?.fin) {
+            throw new Error('Todos los campos obligatorios deben ser completados');
         }
-        throw new Error('Error al registrar el medicamento');
+        const nuevoMedicamento = new Medicamento(medicamentoData);
+        return await nuevoMedicamento.save();
     }
-};
+    static async obtenerMedicamentos() {
+        return await Medicamento.find().populate('id_Paciente', 'nombre apellido email');
+    }
+    static async obtenerMedicamentoPorId(id) {
+        return await Medicamento.findById(id).populate('id_Paciente', 'nombre apellido email');
+    }
+    static async actualizarMedicamento(id, medicamentoData) {
+        return await Medicamento.findByIdAndUpdate(id, medicamentoData, { new: true });
+    }
+    static async eliminarMedicamento(id) {
+        return await Medicamento.findByIdAndDelete(id);
+    }
+    static async obtenerMedicamentosPorPaciente(idPaciente) {
+        return await Medicamento.find({ id_Paciente: idPaciente }).populate('id_Paciente', 'nombre apellido email');
+    }
+    // Nuevos métodos para la aplicación EPS
+    static async obtenerMedicamentosActivos(idPaciente) {
+        const fechaActual = new Date();
+        return await Medicamento.find({
+            id_Paciente: idPaciente,
+            estado: true,
+            'duracion.fin': { $gte: fechaActual }
+        }).populate('id_Paciente', 'nombre apellido email');
+    }
+    static async obtenerMedicamentosVencidos(idPaciente) {
+        const fechaActual = new Date();
+        return await Medicamento.find({
+            id_Paciente: idPaciente,
+            'duracion.fin': { $lt: fechaActual }
+        }).populate('id_Paciente', 'nombre apellido email');
+    }
+    static async obtenerMedicamentosPorVencer(idPaciente, dias = 3) {
+        const fechaActual = new Date();
+        const fechaLimite = new Date();
+        fechaLimite.setDate(fechaActual.getDate() + dias);
+        return await Medicamento.find({
+            id_Paciente: idPaciente,
+            estado: true,
+            'duracion.fin': {
+                $gte: fechaActual,
+                $lte: fechaLimite
+            }
+        }).populate('id_Paciente', 'nombre apellido email');
+    }
+    static async obtenerRecordatoriosDelDia(idPaciente, fecha) {
+        const inicioDelDia = new Date(fecha);
+        inicioDelDia.setHours(0, 0, 0, 0);
+        const finDelDia = new Date(fecha);
+        finDelDia.setHours(23, 59, 59, 999);
+        return await Medicamento.find({
+            id_Paciente: idPaciente,
+            estado: true,
+            'duracion.inicio': { $lte: finDelDia },
+            'duracion.fin': { $gte: inicioDelDia }
+        }).populate('id_Paciente', 'nombre apellido email');
+    }
+    static async cambiarEstadoMedicamento(id, estado) {
+        return await Medicamento.findByIdAndUpdate(id, { estado }, { new: true });
+    }
+    static async obtenerEstadisticasMedicamentos(idPaciente) {
+        const total = await Medicamento.countDocuments({ id_Paciente: idPaciente });
+        const activos = await Medicamento.countDocuments({
+            id_Paciente: idPaciente,
+            estado: true,
+            'duracion.fin': { $gte: new Date() }
+        });
+        const vencidos = await Medicamento.countDocuments({
+            id_Paciente: idPaciente,
+            'duracion.fin': { $lt: new Date() }
+        });
+        const porVencer = await MedicamentoService.obtenerMedicamentosPorVencer(idPaciente);
+        return {
+            total,
+            activos,
+            vencidos,
+            porVencer: porVencer.length
+        };
+    }
+}

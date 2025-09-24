@@ -1,9 +1,9 @@
-import { crearMedicamento } from "../services/medicamento.service.js";
+import { MedicamentoService } from "../services/medicamento.service";
 import { Request, Response } from "express";
 
 export const registrarMedicamento = async (req: Request, res: Response) => {
     try {
-        const medicamento = await crearMedicamento(req.body);
+        const medicamento = await MedicamentoService.crearMedicamento(req.body);
         res.status(201).json(medicamento);
     } catch (error: any) {
         console.error(error);

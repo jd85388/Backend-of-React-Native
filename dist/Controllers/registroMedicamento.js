@@ -1,7 +1,7 @@
-import { crearMedicamento } from "../services/medicamento.service.js";
+import { MedicamentoService } from "../services/medicamento.service";
 export const registrarMedicamento = async (req, res) => {
     try {
-        const medicamento = await crearMedicamento(req.body);
+        const medicamento = await MedicamentoService.crearMedicamento(req.body);
         res.status(201).json(medicamento);
     }
     catch (error) {

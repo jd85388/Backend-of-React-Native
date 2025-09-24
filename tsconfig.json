@@ -7,9 +7,10 @@
         "rootDir":"src",
         "esModuleInterop": true,
         "skipLibCheck": true,
-        "strict": true,
+        "strict": false,
+        "verbatimModuleSyntax": false,
         "types": ["node","jest"]
         },
         "include": ["src/**/*"],
-        "exclude": ["node_modules"]
+        "exclude": ["node_modules", "../f/**/*", "../../f/**/*", "../../../f/**/*"]
 }

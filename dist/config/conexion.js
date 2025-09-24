@@ -3,7 +3,12 @@ import dotenv from "dotenv";
 dotenv.config();
 export const conectarBD = async () => {
     try {
-        await mongoose.connect(process.env.MONGO);
+        console.log("MONGO URI:", process.env.MONGO); // Debug
+        const mongoUri = process.env.MONGO;
+        if (!mongoUri) {
+            throw new Error("La variable de entorno MONGO no está definida");
+        }
+        await mongoose.connect(mongoUri);
         console.log("Base de datos Disponible para peticiones");
     }
     catch (error) {

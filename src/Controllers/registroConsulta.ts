@@ -1,9 +1,9 @@
-import { CrearConsulta } from "../services/consultas.service.js"
+import { ConsultaService } from "../services/consultas.service"
 import { Request, Response } from "express";
 
 export const registrarConsulta = async (req: Request, res: Response) => {
     try {
-         const consulta = await CrearConsulta(req.body);
+         const consulta = await ConsultaService.crearConsulta(req.body);
          res.status(201).json(consulta);
     } catch (error: any) {
         console.error(error);
