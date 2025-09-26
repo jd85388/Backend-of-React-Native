@@ -20,7 +20,8 @@
     "jsonwebtoken": "^9.0.2",
     "lottie-react-native": "^7.3.3",
     "mongoose": "^8.18.0",
-    "nodemailer": "^7.0.6"
+    "nodemailer": "^7.0.6",
+    "resend": "^6.1.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
