@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { MedicamentoService } from '../services/medicamento.service';
+import { MedicamentoService } from '../services/medicamento.service.js';
 class MedicamentoController {
     // Crear un nuevo medicamento
     async crearMedicamento(req, res) {

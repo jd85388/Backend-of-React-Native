@@ -1,4 +1,4 @@
-import { Iconsulta } from "../models/consultas";
+import { Iconsulta } from "../models/consultas.js";
 export declare class ConsultaService {
     static crearConsulta(consultaData: any): Promise<Iconsulta>;
     static obtenerConsultas(): Promise<Iconsulta[]>;

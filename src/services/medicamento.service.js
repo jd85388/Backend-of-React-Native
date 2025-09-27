@@ -1,4 +1,4 @@
-import Medicamento, { IMedicamentos } from '../models/medicamentos';
+import Medicamento, { IMedicamentos } from '../models/medicamentos.js';
 export class MedicamentoService {
     static async crearMedicamento(medicamentoData) {
         // Validación de campos requeridos

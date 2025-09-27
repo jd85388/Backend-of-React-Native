@@ -19,10 +19,10 @@ export declare const consultaShema: Schema<any, Model<any, any, any, any, any, a
 } & {
     doctor: string;
     estado: boolean;
-    fecha: NativeDate;
-    motivo: string;
     id_Paciente: import("mongoose").Types.ObjectId;
     especialidad: string;
+    fecha: NativeDate;
+    motivo: string;
     direccion: string;
     observacion?: string | null;
     recordatorio?: boolean | null;
@@ -33,10 +33,10 @@ export declare const consultaShema: Schema<any, Model<any, any, any, any, any, a
 } & {
     doctor: string;
     estado: boolean;
-    fecha: NativeDate;
-    motivo: string;
     id_Paciente: import("mongoose").Types.ObjectId;
     especialidad: string;
+    fecha: NativeDate;
+    motivo: string;
     direccion: string;
     observacion?: string | null;
     recordatorio?: boolean | null;
@@ -49,10 +49,10 @@ export declare const consultaShema: Schema<any, Model<any, any, any, any, any, a
 } & {
     doctor: string;
     estado: boolean;
-    fecha: NativeDate;
-    motivo: string;
     id_Paciente: import("mongoose").Types.ObjectId;
     especialidad: string;
+    fecha: NativeDate;
+    motivo: string;
     direccion: string;
     observacion?: string | null;
     recordatorio?: boolean | null;

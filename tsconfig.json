@@ -1,16 +1,23 @@
-{ 
-    "compilerOptions" : {
+{
+    "compilerOptions": {
         "target": "es2020",
         "module": "es2020",
         "moduleResolution": "node",
-        "outDir":"dist",
-        "rootDir":"src",
+        "outDir": "./dist",
+        "rootDir": "./src",
         "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
         "skipLibCheck": true,
         "strict": false,
         "verbatimModuleSyntax": false,
-        "types": ["node","jest"]
-        },
-        "include": ["src/**/*"],
-        "exclude": ["node_modules", "../f/**/*", "../../f/**/*", "../../../f/**/*"]
+        "types": ["node", "jest"],
+        "forceConsistentCasingInFileNames": true
+    },
+    "include": ["./src/**/*"],
+    "exclude": [
+        "node_modules",
+        "./dist",
+        "**/*.test.ts",
+        "**/*.d.ts"
+    ]
 }

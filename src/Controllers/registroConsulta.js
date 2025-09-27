@@ -1,4 +1,4 @@
-import { ConsultaService } from "../services/consultas.service";
+import { ConsultaService } from "../services/consultas.service.js";
 import { Request, Response } from "express";
 export const registrarConsulta = async (req, res) => {
     try {

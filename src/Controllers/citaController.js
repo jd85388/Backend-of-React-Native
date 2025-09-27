@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ConsultaService } from '../services/consultas.service';
+import { ConsultaService } from '../services/consultas.service.js';
 class CitaController {
     // Crear una nueva cita médica
     async crearCita(req, res) {

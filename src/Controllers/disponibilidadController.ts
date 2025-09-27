@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import DisponibilidadService from '../services/disponibilidad.service';
+import DisponibilidadService from '../services/disponibilidad.service.js';
 
 class DisponibilidadController {
 

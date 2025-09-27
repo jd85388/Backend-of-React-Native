@@ -1,4 +1,4 @@
-import { IDisponibilidad, ICitaProgramada } from '../models/disponibilidad';
+import { IDisponibilidad, ICitaProgramada } from '../models/disponibilidad.js';
 export declare class DisponibilidadService {
     obtenerEspecialidades(): Promise<any[]>;
     obtenerMedicosPorEspecialidad(codigoEspecialidad: string): Promise<any[]>;

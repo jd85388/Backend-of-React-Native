@@ -1,4 +1,4 @@
-import { IMedicamentos } from '../models/medicamentos';
+import { IMedicamentos } from '../models/medicamentos.js';
 export declare class MedicamentoService {
     static crearMedicamento(medicamentoData: any): Promise<IMedicamentos>;
     static obtenerMedicamentos(): Promise<IMedicamentos[]>;

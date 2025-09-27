@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import MedicamentoController from '../Controllers/medicamentoController';
-import CitaController from '../Controllers/citaController';
+import MedicamentoController from '../Controllers/medicamentoController.js';
+import CitaController from '../Controllers/citaController.js';
 const router = Router();
 // === RUTAS DE MEDICAMENTOS ===
 // Crear un nuevo medicamento

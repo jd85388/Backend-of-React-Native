@@ -1,4 +1,4 @@
-import Consulta, { Iconsulta } from "../models/consultas";
+import Consulta, { Iconsulta } from "../models/consultas.js";
 export class ConsultaService {
     static async crearConsulta(consultaData) {
         const { id_Paciente, especialidad, doctor, fecha, motivo, direccion, prioridad } = consultaData;

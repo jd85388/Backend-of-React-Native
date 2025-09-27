@@ -1,4 +1,4 @@
-import { MedicamentoService } from "../services/medicamento.service";
+import { MedicamentoService } from "../services/medicamento.service.js";
 import { Request, Response } from "express";
 
 export const registrarMedicamento = async (req: Request, res: Response) => {

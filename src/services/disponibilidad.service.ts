@@ -1,4 +1,4 @@
-import { Disponibilidad, CitaProgramada, IDisponibilidad, ICitaProgramada } from '../models/disponibilidad';
+import { Disponibilidad, CitaProgramada, IDisponibilidad, ICitaProgramada } from '../models/disponibilidad.js';
 
 export class DisponibilidadService {
 
