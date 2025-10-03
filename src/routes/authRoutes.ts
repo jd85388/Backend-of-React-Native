@@ -7,6 +7,10 @@ import { verificacionPassword } from '../middleware/validacion.js';
 
 const router = Router();
 
+// Ruta de prueba para verificar conectividad
+router.get('/test', (req, res) => {
+  res.json({ message: 'Backend funcionando correctamente', timestamp: new Date() });
+});
 
 router.post('/registrar', registrarPaciente);
 router.post('/paciente/medicamento', registrarMedicamento);
