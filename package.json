@@ -2,17 +2,12 @@
   "name": "backend",
   "version": "1.0.0",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node dist/index.js",
-    "build": "tsc",
-    "clean": "rmdir /s /q dist 2>nul || rm -rf dist 2>/dev/null || echo 'Cleaned'",
-    "prebuild": "npm run clean",
-    "postbuild": "echo Build completed successfully!",
+    "start": "node index.js",
+    "build": "tsc && cp index.js dist/index.js",
     "dev": "ts-node src/index.ts",
-    "test": "jest",
-    "render-build": "npm run build",
-    "render-start": "npm start"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
