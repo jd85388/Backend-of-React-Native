@@ -1,76 +1,111 @@
 import { Model, Schema, model, Document } from "mongoose";
 
 export interface IMedicamentos extends Document {
-    id_Paciente: Schema.Types.ObjectId;
-    nombre: string;
-    dosis: number;
-    unidad: string;
-    frecuencia: string;
-    viaAdministracion: string;
-    duracion: { inicio: Date; fin: Date};
-    recetadoPor: string;
-    descripcion: string;
-    notas: string;
-    estado: boolean;
-    causaUso: string;
+  id_Paciente: Schema.Types.ObjectId;
+  nombre: string;
+  dosis: number;
+  unidad: string;
+  frecuencia: string;
+  viaAdministracion: string;
+  duracion: {
+    inicio: Date;
+    fin: Date;
+  };
+  recetadoPor: string;
+  descripcion: string;
+  notas?: string;
+  estado: boolean;
+  causaUso: string;
 }
 
-const MedicamentosSchema: Schema = new Schema({
-    id_Paciente: { type: Schema.Types.ObjectId, ref: 'paciente', require: true},
-    nombre: { type: String, 
-        required: [true, 'El campo es obligatorio'], 
-        trim: true},
-    dosis: { type: Number, 
-        required: [true, 'El campo es obligatorio'], 
-        min: 1, 
-        max: 1000},
-    unidad: { type: String, 
-        required: [true, 'El campo es obligatorio'],
-         trim: true, 
-         enum: ['mg','g','kg','ml','l','gotas(s)','cucharada','cucharaditas',
-            'pulverizado','tableta','capsula','ampolla','sobre','supositorio',
-            'parche','inhalacion','inyeccion','aplicacion']},
-    frecuencia: { type: String,
-        required: [true, 'El campo es obligatorio'],
-        trim: true
+const MedicamentosSchema = new Schema<IMedicamentos>(
+  {
+    id_Paciente: {
+      type: Schema.Types.ObjectId,
+      ref: "paciente",
+      required: true
     },
-    viaAdministracion: { type: String,
-        required: [true, 'El campo es obligatorio'],
-        trim: true,
-        enum: ['intravenosa','intramuscular','subcutanea','intradermica','intraosea',
-            'intratecal','oral','sublingual','buccal/yugal','rectal','nasogastrica',
-            'inhalatoria','intranasal','topica','transdermica','oftalmica','otica','vaginal',
-            'uretral','dental/gingival','intraarticular','intracardiaca','inhalacion nasal']   
+    nombre: {
+      type: String,
+      required: [true, "El campo es obligatorio"],
+      trim: true
     },
-    duracion: { type: { inicio: Date, fin: Date }, 
-    required: true, 
-    validate: {
-        validator: (value: { inicio: Date; fin: Date }) => value.inicio <= value.fin,
-        message: 'La fecha de inicio debe ser anterior a la fecha de fin',},
+    dosis: {
+      type: Number,
+      required: [true, "El campo es obligatorio"],
+      min: 1,
+      max: 1000
     },
-    recetadoPor: { type: String,
-        required: [ true, 'El campo es obligatorio'],
-        trim: true
+    unidad: {
+      type: String,
+      required: [true, "El campo es obligatorio"],
+      trim: true,
+      enum: [
+        "mg", "g", "kg", "ml", "l", "gotas(s)", "cucharada", "cucharaditas",
+        "pulverizado", "tableta", "capsula", "ampolla", "sobre", "supositorio",
+        "parche", "inhalacion", "inyeccion", "aplicacion"
+      ]
     },
-    descripcion: { type: String,
-        required: [true, 'el campo es obligatorio'],
-        trim: true,
-        maxlength: [2000, 'No debe ser mayor al valor maximo permitido'],
-        minlength: [10, 'Debe ser mayor al valor maximo admitido']
+    frecuencia: {
+      type: String,
+      required: [true, "El campo es obligatorio"],
+      trim: true
     },
-    notas: { type: String,
-        required: false,
-        trim: true,
-        maxlength: [2000, 'No debe exeder el valor maximo permitido']
+    viaAdministracion: {
+      type: String,
+      required: [true, "El campo es obligatorio"],
+      trim: true,
+      enum: [
+        "intravenosa", "intramuscular", "subcutanea", "intradermica", "intraosea",
+        "intratecal", "oral", "sublingual", "buccal/yugal", "rectal", "nasogastrica",
+        "inhalatoria", "intranasal", "topica", "transdermica", "oftalmica", "otica",
+        "vaginal", "uretral", "dental/gingival", "intraarticular", "intracardiaca",
+        "inhalacion nasal"
+      ]
     },
-    estado: { type: Boolean,
-        default: true,
+    duracion: {
+      inicio: { type: Date, required: true },
+      fin: { type: Date, required: true }
     },
-    causaUso: { type: String,
-        required: [true, 'campo obligatorio'],
-        trim: true
+    recetadoPor: {
+      type: String,
+      required: [true, "El campo es obligatorio"],
+      trim: true
     },
-}, {timestamps: true});
+    descripcion: {
+      type: String,
+      required: [true, "El campo es obligatorio"],
+      trim: true,
+      maxlength: [2000, "No debe ser mayor al valor máximo permitido"],
+      minlength: [10, "Debe ser mayor al valor mínimo admitido"]
+    },
+    notas: {
+      type: String,
+      trim: true,
+      maxlength: [2000, "No debe exceder el valor máximo permitido"]
+    },
+    estado: {
+      type: Boolean,
+      default: true
+    },
+    causaUso: {
+      type: String,
+      required: [true, "Campo obligatorio"],
+      trim: true
+    }
+  },
+  {
+    timestamps: true
+  }
+);
 
-const Medicamento: Model<IMedicamentos> = model<IMedicamentos>('medicamentos', MedicamentosSchema);
-export default Medicamento
+// ✅ Validación personalizada con tipado correcto
+MedicamentosSchema.pre<IMedicamentos>("validate", function (next) {
+  if (this.duracion?.inicio > this.duracion?.fin) {
+    this.invalidate("duracion", "La fecha de inicio debe ser anterior a la fecha de fin");
+  }
+  next();
+});
+
+const Medicamento: Model<IMedicamentos> = model<IMedicamentos>("medicamentos", MedicamentosSchema);
+export default Medicamento;

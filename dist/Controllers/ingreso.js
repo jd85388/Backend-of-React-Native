@@ -4,17 +4,35 @@ import { ingresoUsuario } from "../services/ingreso.service.js";
 export const loginController = async (req, res) => {
     try {
         const usuario = req.usuario;
-        const { usuario: dataUsuario, token: accessToken } = await ingresoUsuario(usuario);
-        const refreshToken = jwt.sign({ sub: usuario._id }, process.env.JWT_TOKEN, { expiresIn: "7d" });
-        await Paciente.findByIdAndUpdate(usuario._id, { refreshToken });
-        res.status(200).json({
+        if (!usuario) {
+            return res.status(400).json({ message: "No se recibió usuario autenticado" });
+        }
+        const { usuario: dataUsuario, accessToken: accessTokenFromService } = await ingresoUsuario(usuario);
+        if (!accessTokenFromService) {
+            throw new Error("No se pudo generar el access token");
+        }
+        const accessToken = accessTokenFromService;
+        const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET;
+        if (!refreshTokenSecret) {
+            throw new Error("Falta la variable de entorno REFRESH_TOKEN_SECRET");
+        }
+        const refreshToken = jwt.sign({ sub: String(usuario._id), id: String(usuario._id), _id: String(usuario._id) }, refreshTokenSecret, { expiresIn: "7d" });
+        await Paciente.findByIdAndUpdate(usuario._id, { refreshToken }, { new: true });
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 días
+        });
+        return res.status(200).json({
             usuario: dataUsuario,
             accessToken,
-            refreshToken,
         });
     }
     catch (err) {
-        console.log(err);
-        res.status(400).json({ message: err.message || "Tenemos probelams para procesar su solicitud" });
+        console.error("loginController error:", err?.message || err);
+        return res.status(500).json({
+            message: err?.message || "Tenemos problemas para procesar su solicitud",
+        });
     }
 };

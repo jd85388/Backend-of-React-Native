@@ -1,7 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import Paciente from '../models/paciente.js';
-import { enviarCorreoRegistro } from '../utils/CorreoRegistro.js';
 import { envioCorreoRegistro } from '../utils/enviarCorreo.js';
 
 export const crearPaciente = async (datos: {
@@ -31,7 +30,7 @@ export const crearPaciente = async (datos: {
     numero,
   });
 
-  const token = jwt.sign({ id: nuevoPaciente._id }, process.env.JWT_TOKEN as string);
+  const token = jwt.sign({ id: nuevoPaciente._id }, process.env.JWT_SECRET as string);
 
   await envioCorreoRegistro(email, nombre, token);
   await nuevoPaciente.save();
