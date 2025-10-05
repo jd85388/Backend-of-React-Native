@@ -1,7 +1,7 @@
 process.env.JWT_TOKEN = 'Life_Reminder_03';
 import { crearPaciente } from '../services/paciente.service';
 import Paciente from '../models/paciente';
-import { enviarCorreoRegistro } from '../utils/CorreoRegistro';
+import { envioCorreoRegistro } from '../utils/enviarCorreo';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -68,7 +68,7 @@ describe('service: crearPaciente', () => {
     );
 
     // Verifica que enviarCorreoRegistro fue llamado correctamente
-    expect(enviarCorreoRegistro).toHaveBeenCalledWith(
+    expect(envioCorreoRegistro).toHaveBeenCalledWith(
       datosCompletos.email,
       datosCompletos.nombre,
       'mocked_jwt_token'
